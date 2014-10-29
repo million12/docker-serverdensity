@@ -1,30 +1,30 @@
-####ServerDensity Docker 
-Image build for M12 Cloud Deployment 
+# Docker with ServerDensity agent (sd-agent)
 
-Image supports environmental variable 
+This is a CentOS-7 based [million12/serverdensity](https://registry.hub.docker.com/u/million12/serverdensity/) Docker image with an installed sd-agent. Use it if you want to monitor your server with [ServerDensity.io](https://www.serverdensity.com/).
 
-  > API_KEY your_api_key
-  
-  > GROUPNAME Server/Node groupname
-  
-  > ACCOUNT_NAME  Name of your organization (https://****.serverdensity.io)
-  
-If no GROUPNAME provided it will add node to default directory. Remember to add hostname as otherwise system will use dockerid. 
 
-Start Docker image
+## Customise with environmental variables 
 
-  > docker run -d \
+##### ACCOUNT_NAME  
+The name of your organization account, i.e. https://ACCOUNT_NAME.serverdensity.io
   
-  > -t 
-  
-  > -h hostname
-  
-  > --name serverdensity \
-  
-  > -e API_KEY=key \
-  
-  > -e GROUPNAME=groupname \
-  
-  > -e ACCOUNT_NAME=name \
-  
-  > million12/serverdensity
+##### API_KEY  
+API key for the account. Note: this is an *API key*, **not** an *agent key* (the latter is per-device). Generate your API key under:  
+ServerDensity panel -> Preferences -> Security -> API tokens.
+
+##### GROUPNAME (optional)  
+Group name in ServerDensity. If not provided, server will be listed in the 'Ungrouped' group.
+
+
+## Usage
+
+`docker run -dt --net=host --env="API_KEY=api-key" --env="ACCOUNT_NAME=name" million12/serverdensity`
+
+Note 1: `-t` option is required as sd-agent uses sudo which requires TTY.  
+Note 2: `--net=host` gives access to all host network interfaces (and inside the container sets the hostname to the same as hosts' hostname). This is to allow sd-agent reporting about network traffic. Read the Docker doc about potential security issues with it.
+
+
+## Author
+
+* Przemyslaw Ozgo <linux@ozgo.info>
+* Marcin Ryzycki <marcin@m12.io>
