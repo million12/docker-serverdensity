@@ -1,0 +1,19 @@
+[Unit]
+Description=Serverdensity agent service
+Requires=systemd-journald.service
+After=systemd-journald.service
+
+[Service]
+TimeoutStartSec=0
+Type=oneshot
+RemainAfterExit=true
+ExecStartPre=/usr/bin/docker pull million12/serverdensity
+ExecStart=/usr/bin/docker run -dt --net=host --name serverdensity --env="API_KEY=api-key" --env="ACCOUNT_NAME=name" --env="GROUPNAME=group_name" million12/serverdensity
+ExecStop=/usr/bin/docker stop serverdensity
+Restart=allways
+
+[Install]
+WantedBy=multi-user.target
+
+[X-Fleet]
+Global=true

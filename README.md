@@ -24,7 +24,19 @@ Note 1: `-t` option is required as sd-agent uses sudo which requires TTY.
 Note 2: `--net=host` gives access to all host network interfaces (and inside the container sets the hostname to the same as hosts' hostname). This is to allow sd-agent reporting about network traffic. Read the Docker doc about potential security issues with it.
 
 
-## Author
+## Fleet/Cluster deployment
+*serverdensity.service* file is an example for deployment with fleet to propagate the monitoring system on all/some of the servers in the cluster. 
+
+#### Start service with fleetctl
+On one of the servers that are in the cluster start the service by:
+
+`sudo fleetctl start /path/to/service/file/serverdensity.service`
+
+Note 1: **GROUPNAME** variable might be of use here.   
+Note 2: For different settings than **GLOBAL** see [X-Fleet documentation](https://github.com/coreos/fleet/blob/master/Documentation/unit-files-and-scheduling.md).  
+
+
+## Authors
 
 * Przemyslaw Ozgo <linux@ozgo.info>
 * Marcin Ryzycki <marcin@m12.io>
