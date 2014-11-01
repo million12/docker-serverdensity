@@ -1,5 +1,6 @@
 [Unit]
 Description=Serverdensity agent service
+Documentation=https://github.com/million12/docker-serverdensity
 Requires=systemd-journald.service
 After=systemd-journald.service
 
@@ -8,7 +9,9 @@ TimeoutStartSec=0
 Type=oneshot
 RemainAfterExit=true
 ExecStartPre=/usr/bin/docker pull million12/serverdensity
-ExecStart=/usr/bin/docker run -dt --net=host --name serverdensity --env="API_KEY=api-key" --env="ACCOUNT_NAME=name" --env="GROUPNAME=group_name" million12/serverdensity
+ExecStart=-/usr/bin/docker run -dt --net=host --name serverdensity --env="API_KEY=api-key" --env="ACCOUNT_NAME=name" --env="GROUPNAME=group_name" million12/serverdensity
+ExecStart=/usr/bin/docker start serverdensity
+ExecReload=/usr/bin/docker restart serverdensity
 ExecStop=/usr/bin/docker stop serverdensity
 Restart=allways
 
